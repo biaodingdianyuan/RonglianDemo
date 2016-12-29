@@ -259,7 +259,7 @@ public class ChattingActivity extends AppCompatActivity {
         values.put("time",list.get(0).getTime());
         values.put("img_url","");
         values.put("ty","1");
-        sb=new StringBuilder();
+
         Cursor cursor = db.query("contact",null,"name=?",new String[]{list.get(0).getName().toString()},null,null,null);
         if(cursor.getCount()>0){
             db.update("contact",values,"name=?",new String[]{list.get(0).getName().toString()});
