@@ -1,7 +1,9 @@
-package com.example.liuhaifeng.rongliandemo;
+package com.example.liuhaifeng.rongliandemo.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.example.liuhaifeng.rongliandemo.R;
 
 public class MainActivity extends AppCompatActivity {
 
