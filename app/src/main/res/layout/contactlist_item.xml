@@ -40,7 +40,6 @@
                 android:layout_height="wrap_content"
                 android:text="1111111"
                 android:textSize="18dp"
-
                 android:id="@+id/listmeg_item"/>
 
 
@@ -52,8 +51,6 @@
             android:layout_margin="10dp"
             android:text="10:20"/>
     </LinearLayout>
-
-
 
 
 </LinearLayout>
