@@ -18,8 +18,10 @@ import com.example.liuhaifeng.rongliandemo.R;
 import com.example.liuhaifeng.rongliandemo.dao.ContactDao;
 import com.example.liuhaifeng.rongliandemo.dao.MessageDao;
 import com.example.liuhaifeng.rongliandemo.dao.Msg;
+import com.example.liuhaifeng.rongliandemo.dao.SQLDao;
 import com.example.liuhaifeng.rongliandemo.tool.ContactopenHelper;
 import com.example.liuhaifeng.rongliandemo.tool.MessageopenHelper;
+import com.example.liuhaifeng.rongliandemo.tool.OpenHelperTools;
 import com.yuntongxun.ecsdk.ECChatManager;
 import com.yuntongxun.ecsdk.ECDevice;
 import com.yuntongxun.ecsdk.ECError;
@@ -170,7 +172,13 @@ public class ChattingActivity extends AppCompatActivity {
                                 messageDao.setType("TYPE_SENT");
                                 mes_list.add(messageDao);
                                 intomessage(mes_list);
-
+                                OpenHelperTools tools=new OpenHelperTools();
+                                List<SQLDao> l=new ArrayList<SQLDao>();
+                                SQLDao dao=new SQLDao();
+                                // TODO: 2016/12/30 添加循环
+//                                dao.getContactDao(list.get())
+//                                l.add();
+//                                tools.insert(MyAPP.contactopenHelper,list);
                                 input.setText("");
 //                                for (int i = 0; i < app.Contact_list.size(); i++) {
 //                                    if (app.Contact_list.get(i).getName().equals(ecMessage.getTo())) {
@@ -216,6 +224,7 @@ public class ChattingActivity extends AppCompatActivity {
                     messageDao.setType("TYPE_RECEIVED");
                     mes_list.add(messageDao);
                     intomessage(mes_list);
+
                     intocontact(list);
 
                 }
