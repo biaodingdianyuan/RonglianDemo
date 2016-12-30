@@ -45,10 +45,9 @@
         android:supportsRtl="true"
         tools:replace="icon,label,theme"
         android:theme="@style/AppTheme">
-
+        <activity android:name=".activity.Group_add_friendActivity"/>
         <activity android:name=".activity.CreateGroupActivity"/>
         <activity android:name=".activity.MainActivity"
-
             >
 
         </activity>

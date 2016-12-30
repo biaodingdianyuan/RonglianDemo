@@ -44,6 +44,12 @@
        android:layout_height="wrap_content"
        android:id="@+id/create_group"
        android:text="创建群组"/>
+    <Button
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/join_ingroup"
+        android:text="加入群组"/>
 
 
 </LinearLayout>

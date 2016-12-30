@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.liuhaifeng.rongliandemo.MyAPP;
 import com.example.liuhaifeng.rongliandemo.R;
@@ -44,28 +46,31 @@ public class ChattingActivity extends AppCompatActivity {
     private EditText input;
     private Button send;
     private MsgAdapter adapter;
-    private String APPKEY = "8a216da859204cc9015929b9cf1c059b";
+    private TextView title_chat;
+    private ImageView left_chat;
+
     private List<Msg> msgList = new ArrayList<Msg>();
     ContactDao contactDao = new ContactDao();
     Msg msg;
     String from_name;
     String to_name;
     String ty;
+    String groupid;
     MyAPP app = new MyAPP();
-    ContactopenHelper openHelper;
-    MessageopenHelper m_opnHelper;
     private SQLiteDatabase db;
     private StringBuilder sb;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting);
+        getSupportActionBar().hide();
         Intent intent = getIntent();
         from_name = intent.getStringExtra("from");
         to_name = intent.getStringExtra("to");
         ty = intent.getStringExtra("ty");
-        openHelper=new ContactopenHelper(this,"my.db",null,1);
-        m_opnHelper=new MessageopenHelper(this,"db",null,1);
+        if(ty.equals("2")){
+            groupid=intent.getStringExtra("groupid");
+        }
         init();
 
 
@@ -90,11 +95,26 @@ public class ChattingActivity extends AppCompatActivity {
         input = (EditText) findViewById(R.id.input);
         send = (Button) findViewById(R.id.send);
         chatting_lv.setAdapter(adapter);
+        title_chat= (TextView) findViewById(R.id.title_chatting);
+        left_chat= (ImageView) findViewById(R.id.left_img_chat);
 
 
+        title_chat.setText(to_name);
 
+        if(ty.equals("2")){
+            left_chat.setVisibility(View.VISIBLE);
+            left_chat.setImageResource(R.drawable.add);
 
-
+        }else{
+            left_chat.setVisibility(View.GONE);
+        }
+        left_chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //群组拉人
+                startActivity(new Intent(ChattingActivity.this,Group_add_friendActivity.class).putExtra("groupid",groupid).putExtra("from",from_name));
+            }
+        });
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +122,12 @@ public class ChattingActivity extends AppCompatActivity {
 
                 ECMessage m = ECMessage.createECMessage(ECMessage.Type.TXT);
                 if (ty.equals("1")) {
-                    m.setTo(APPKEY + "#" + to_name);
+                    m.setTo(MyAPP.APPKEY + "#" + to_name);
                 } else if (ty.equals("0")) {
                     m.setTo(to_name);
+                }else if(ty.equals("2")){
+                    m.setTo(groupid);
+
                 }
 
 
@@ -128,7 +151,7 @@ public class ChattingActivity extends AppCompatActivity {
                                 String data = df.format(new Date()).toString();
                                 adapter.notifyDataSetChanged();
                                 chatting_lv.setSelection(msgList.size());
-                               list=new ArrayList<ContactDao>();
+                                list=new ArrayList<ContactDao>();
                                 contactDao=new ContactDao();
                                 contactDao.setId(ecMessage.getTo());
                                 contactDao.setImage("");
@@ -251,7 +274,7 @@ public class ChattingActivity extends AppCompatActivity {
         finish();
     }
     public void intocontact(List<ContactDao> list){
-        db=openHelper.getWritableDatabase();
+        db=MyAPP.contactopenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("id",list.get(0).getId());
         values.put("name",list.get(0).getName());
@@ -269,7 +292,7 @@ public class ChattingActivity extends AppCompatActivity {
         }
     }
     public void intomessage(List<MessageDao> list){
-        db=m_opnHelper.getWritableDatabase();
+        db=MyAPP.messageopenHelper.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("name",list.get(0).getName());
         values.put("message",list.get(0).getMessage());
@@ -281,7 +304,7 @@ public class ChattingActivity extends AppCompatActivity {
     private  List<MessageDao> getmes(String name_k){
         List<MessageDao> list=new ArrayList<MessageDao>();
         MessageDao messageDao;
-        db=m_opnHelper.getReadableDatabase();
+        db=MyAPP.messageopenHelper.getReadableDatabase();
             Cursor cursor = db.query("message", null, "name=?", new String[]{name_k}, null, null, null);
             if (cursor != null) {
                 if(cursor.moveToFirst()) {

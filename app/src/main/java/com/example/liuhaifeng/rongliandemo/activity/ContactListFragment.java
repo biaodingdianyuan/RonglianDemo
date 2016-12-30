@@ -33,7 +33,7 @@ public class ContactListFragment extends Fragment {
     private List<ContactDao> list;
     private  ContactDao contactDao;
     ContactAdapter adapter;
-    ContactopenHelper openHelper;
+
     private SQLiteDatabase db;
     data d=new data
             ();
@@ -107,10 +107,10 @@ public class ContactListFragment extends Fragment {
         }
     }
     public  List<ContactDao> getdata(){
-        openHelper=new ContactopenHelper(getActivity(),"my.db",null,1);
+
         ContactDao c;
         List<ContactDao> l=new ArrayList<ContactDao>();
-        db=openHelper.getReadableDatabase();
+        db=MyAPP.contactopenHelper.getReadableDatabase();
         Cursor cursor=db.query("contact",null,null,null,null,null,null);
         if (cursor.moveToFirst()){
             do {
